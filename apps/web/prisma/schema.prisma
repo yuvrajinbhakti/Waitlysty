@@ -1,0 +1,61 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model User {
+  id           String     @id @default(cuid())
+  email        String     @unique
+  passwordHash String
+  name         String?
+  plan         Plan       @default(FREE)
+  createdAt    DateTime   @default(now())
+  waitlists    Waitlist[]
+}
+
+model Waitlist {
+  id                  String       @id @default(cuid())
+  userId              String
+  user                User         @relation(fields: [userId], references: [id], onDelete: Cascade)
+  name                String
+  slug                String       @unique
+  description         String?
+  tagline             String?
+  referralEnabled     Boolean      @default(true)
+  emailConfirmEnabled Boolean      @default(true)
+  removeBranding      Boolean      @default(false)
+  confirmSubject      String       @default("You're on the list!")
+  createdAt           DateTime     @default(now())
+  subscribers         Subscriber[]
+  @@index([userId])
+}
+
+model Subscriber {
+  id            String       @id @default(cuid())
+  waitlistId    String
+  waitlist      Waitlist     @relation(fields: [waitlistId], references: [id], onDelete: Cascade)
+  email         String
+  name          String?
+  position      Int
+  confirmed     Boolean      @default(false)
+  confirmToken  String?      @unique @default(cuid())
+  referralCode  String       @unique
+  referredById  String?
+  referredBy    Subscriber?  @relation("ReferralTree", fields: [referredById], references: [id])
+  referrals     Subscriber[] @relation("ReferralTree")
+  referralCount Int          @default(0)
+  createdAt     DateTime     @default(now())
+  @@unique([waitlistId, email])
+  @@index([waitlistId])
+  @@index([referralCode])
+}
+
+enum Plan {
+  FREE
+  PRO
+  BUSINESS
+}
