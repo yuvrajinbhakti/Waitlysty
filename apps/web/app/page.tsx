@@ -1,65 +1,212 @@
-import Image from "next/image";
-
-export default function Home() {
+import Link from "next/link";
+export default function LandingPage() {
   return (
-    <div className="flex flex-col flex-1 items-center justify-center bg-zinc-50 font-sans dark:bg-black">
-      <main className="flex flex-1 w-full max-w-3xl flex-col items-center justify-between py-32 px-16 bg-white dark:bg-black sm:items-start">
-        <Image
-          className="dark:invert"
-          src="/next.svg"
-          alt="Next.js logo"
-          width={100}
-          height={20}
-          priority
-        />
-        <div className="flex flex-col items-center gap-6 text-center sm:items-start sm:text-left">
-          <h1 className="max-w-xs text-3xl font-semibold leading-10 tracking-tight text-black dark:text-zinc-50">
-            To get started, edit the page.tsx file.
-          </h1>
-          <p className="max-w-md text-lg leading-8 text-zinc-600 dark:text-zinc-400">
-            Looking for a starting point or more instructions? Head over to{" "}
-            <a
-              href="https://vercel.com/templates?framework=next.js&utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-              className="font-medium text-zinc-950 dark:text-zinc-50"
-            >
-              Templates
-            </a>{" "}
-            or the{" "}
-            <a
-              href="https://nextjs.org/learn?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-              className="font-medium text-zinc-950 dark:text-zinc-50"
-            >
-              Learning
-            </a>{" "}
-            center.
-          </p>
+    <div
+      style={{
+        minHeight: "100vh",
+        display: "flex",
+        flexDirection: "column",
+        background: "var(--bg)",
+      }}
+    >
+      <nav
+        style={{
+          display: "flex",
+          alignItems: "center",
+          justifyContent: "space-between",
+          padding: "18px 40px",
+          borderBottom: "1px solid var(--border)",
+        }}
+      >
+        <div style={{ fontFamily: "Georgia, serif", fontSize: 20 }}>
+          wait<em style={{ color: "var(--accent)" }}>lyst</em>
         </div>
-        <div className="flex flex-col gap-4 text-base font-medium sm:flex-row">
-          <a
-            className="flex h-12 w-full items-center justify-center gap-2 rounded-full bg-foreground px-5 text-background transition-colors hover:bg-[#383838] dark:hover:bg-[#ccc] md:w-[158px]"
-            href="https://vercel.com/new?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
+        <div style={{ display: "flex", gap: 8 }}>
+          <Link
+            href="/auth/login"
+            style={{
+              padding: "7px 16px",
+              borderRadius: 8,
+              fontSize: 13,
+              color: "var(--text2)",
+              textDecoration: "none",
+            }}
           >
-            <Image
-              className="dark:invert"
-              src="/vercel.svg"
-              alt="Vercel logomark"
-              width={16}
-              height={16}
-            />
-            Deploy Now
-          </a>
-          <a
-            className="flex h-12 w-full items-center justify-center rounded-full border border-solid border-black/[.08] px-5 transition-colors hover:border-transparent hover:bg-black/[.04] dark:border-white/[.145] dark:hover:bg-[#1a1a1a] md:w-[158px]"
-            href="https://nextjs.org/docs?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
+            Sign in
+          </Link>
+          <Link
+            href="/auth/signup"
+            style={{
+              padding: "7px 16px",
+              borderRadius: 8,
+              fontSize: 13,
+              background: "var(--accent)",
+              color: "var(--accent-text)",
+              fontWeight: 500,
+              textDecoration: "none",
+            }}
           >
-            Documentation
-          </a>
+            Get started free
+          </Link>
         </div>
-      </main>
+      </nav>
+      <section
+        style={{
+          flex: 1,
+          display: "flex",
+          flexDirection: "column",
+          alignItems: "center",
+          justifyContent: "center",
+          padding: "80px 24px",
+          textAlign: "center",
+        }}
+      >
+        <div
+          style={{
+            display: "inline-flex",
+            alignItems: "center",
+            gap: 6,
+            background: "var(--accent-dim)",
+            border: "1px solid rgba(212,245,122,0.2)",
+            borderRadius: 100,
+            padding: "4px 12px",
+            fontSize: 12,
+            color: "var(--accent)",
+            marginBottom: 28,
+          }}
+        >
+          <span
+            style={{
+              width: 6,
+              height: 6,
+              borderRadius: "50%",
+              background: "var(--accent)",
+              display: "inline-block",
+            }}
+          />{" "}
+          Now in public beta
+        </div>
+        <h1
+          style={{
+            fontFamily: "Georgia, serif",
+            fontSize: "clamp(40px, 7vw, 68px)",
+            lineHeight: 1.1,
+            letterSpacing: -1,
+            maxWidth: 680,
+            marginBottom: 20,
+          }}
+        >
+          Launch with a waitlist.
+          <br />
+          <em style={{ color: "var(--accent)" }}>Not a prayer.</em>
+        </h1>
+        <p
+          style={{
+            fontSize: 16,
+            color: "var(--text2)",
+            maxWidth: 440,
+            lineHeight: 1.7,
+            marginBottom: 40,
+          }}
+        >
+          One script tag. Collect emails, confirm subscribers, and grow through
+          referrals before your product exists.
+        </p>
+        <div
+          style={{
+            display: "flex",
+            gap: 10,
+            flexWrap: "wrap",
+            justifyContent: "center",
+          }}
+        >
+          <Link
+            href="/auth/signup"
+            style={{
+              padding: "11px 24px",
+              borderRadius: 8,
+              background: "var(--accent)",
+              color: "var(--accent-text)",
+              fontWeight: 500,
+              fontSize: 14,
+              textDecoration: "none",
+            }}
+          >
+            Start for free — no card needed
+          </Link>
+          <Link
+            href="/j/demo"
+            style={{
+              padding: "11px 24px",
+              borderRadius: 8,
+              border: "1px solid var(--border2)",
+              color: "var(--text)",
+              fontSize: 14,
+              textDecoration: "none",
+            }}
+          >
+            See live demo ↗
+          </Link>
+        </div>
+      </section>
+      <div
+        style={{
+          display: "grid",
+          gridTemplateColumns: "repeat(3, 1fr)",
+          borderTop: "1px solid var(--border)",
+          borderBottom: "1px solid var(--border)",
+        }}
+      >
+        {[
+          {
+            icon: "⚡",
+            title: "5-minute setup",
+            desc: "Paste one script tag. Live on any site — Framer, Webflow, plain HTML.",
+          },
+          {
+            icon: "🔗",
+            title: "Referral system",
+            desc: "Every subscriber gets a unique link. Share to move up. It markets itself.",
+          },
+          {
+            icon: "📬",
+            title: "Email confirmation",
+            desc: "Auto-confirm emails. Only real signups count. Export CSV anytime.",
+          },
+        ].map((f) => (
+          <div
+            key={f.title}
+            style={{
+              padding: "32px 28px",
+              borderRight: "1px solid var(--border)",
+            }}
+          >
+            <div style={{ fontSize: 20, marginBottom: 12 }}>{f.icon}</div>
+            <div style={{ fontSize: 14, fontWeight: 500, marginBottom: 6 }}>
+              {f.title}
+            </div>
+            <div
+              style={{ fontSize: 13, color: "var(--text2)", lineHeight: 1.6 }}
+            >
+              {f.desc}
+            </div>
+          </div>
+        ))}
+      </div>
+      <footer
+        style={{
+          padding: "18px 40px",
+          display: "flex",
+          justifyContent: "space-between",
+        }}
+      >
+        <span style={{ fontSize: 12, color: "var(--text3)" }}>
+          © 2025 Waitlyst
+        </span>
+        <span style={{ fontSize: 12, color: "var(--text3)" }}>
+          Made for indie founders
+        </span>
+      </footer>
     </div>
   );
 }
