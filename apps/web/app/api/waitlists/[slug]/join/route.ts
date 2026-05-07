@@ -13,12 +13,16 @@ export async function OPTIONS() {
   return new NextResponse(null, { headers: CORS });
 }
 
-export async function POST(req: Request, { params }: { params: { slug: string } }) {
+export async function POST(
+  req: Request,
+  { params }: { params: Promise<{ slug: string }> }
+) {
+  const { slug } = await params;
   const { email, name, ref } = await req.json();
   if (!email) return NextResponse.json({ error: "Email required" }, { headers: CORS, status: 400 });
 
   const waitlist = await prisma.waitlist.findUnique({
-    where: { slug: params.slug },
+    where: { slug },
     include: { _count: { select: { subscribers: true } } },
   });
   if (!waitlist) return NextResponse.json({ error: "Waitlist not found" }, { headers: CORS, status: 404 });
@@ -34,7 +38,7 @@ export async function POST(req: Request, { params }: { params: { slug: string } 
   if (existing) {
     return NextResponse.json({
       message: "Already on the list", position: existing.position,
-      referralLink: `${process.env.NEXT_PUBLIC_URL}/j/${params.slug}?ref=${existing.referralCode}`,
+      referralLink: `${process.env.NEXT_PUBLIC_URL}/j/${slug}?ref=${existing.referralCode}`,
     }, { headers: CORS });
   }
 
@@ -67,13 +71,13 @@ export async function POST(req: Request, { params }: { params: { slug: string } 
   if (waitlist.emailConfirmEnabled) {
     await sendConfirmationEmail({
       to: email, name: name ?? "there", waitlistName: waitlist.name, subject: waitlist.confirmSubject,
-      confirmUrl: `${process.env.NEXT_PUBLIC_URL}/api/waitlists/${params.slug}/confirm?token=${subscriber.confirmToken}`,
+      confirmUrl: `${process.env.NEXT_PUBLIC_URL}/api/waitlists/${slug}/confirm?token=${subscriber.confirmToken}`,
     });
   }
 
   return NextResponse.json({
     message: "Joined!", position: subscriber.position,
     referralCode: subscriber.referralCode,
-    referralLink: `${process.env.NEXT_PUBLIC_URL}/j/${params.slug}?ref=${subscriber.referralCode}`,
+    referralLink: `${process.env.NEXT_PUBLIC_URL}/j/${slug}?ref=${subscriber.referralCode}`,
   }, { headers: CORS, status: 201 });
 }
